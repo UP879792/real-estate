@@ -58,8 +58,8 @@ const Inspections = () => {
                     {inspection.time}
                   </td>
                   <td>
-                    {inspection.prospect.firstName}{' '}
-                    {inspection.prospect.lastName}
+                    {inspection.prospect?.firstName}{' '}
+                    {inspection.prospect?.lastName}
                   </td>
                   <td>{inspection.property.title}</td>
                   <td>
