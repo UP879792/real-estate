@@ -1,11 +1,202 @@
-to run the app
+<PageHeader title="Property details" />
+      <div className="container-fluid px-5">
+        {!loading ? (
+          <>
+            {property ? (
+              <div className="row">
+                <div className="col-lg-8">
+                  <Carousel activeIndex={index} onSelect={handleSelect}>
+                    {property.imageURLs.map((image: any, index: number) => (
+                      <Carousel.Item key={index}>
+                        <Image
+                          src={`${process.env.API_BASE_URL}/${prepareImageUrl(
+                            image.path
+                          )}`}
+                          width={400}
+                          height={300}
+                          alt="home image"
+                          className="d-block w-100"
+                          style={{ objectFit: 'cover' }}
+                        />
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
 
-clone or download real-estate folder
+                  <div className="top">
+                    <p>{property.title}</p>
+                    <p className="mt-0 text-end fw-bold">
+                      Agent:{' '}
+                      {`${property.agent.firstName} ${property.agent.lastName}`}
+                    </p>
+                    <h5 className="fw-bold text-primary">
+                      Price: &#x20A6;{Number(property.price).toLocaleString()}{' '}
+                      <span
+                        className={`fs-6 rounded-pill px-3 text-white ${
+                          property.type == 'For sale'
+                            ? 'bg-danger'
+                            : property.type == 'To rent'
+                            ? 'bg-warning'
+                            : 'bg-light'
+                        }`}
+                      >
+                        {property.type}
+                      </span>
+                    </h5>
+                    <p className="fs-6 text-nowrap">
+                      <span>
+                        <BedIcon /> {property.bedrooms}
+                      </span>
+                      <span className="mx-2">
+                        <BathtubIcon /> {property.toilets}
+                      </span>
+                      <span>
+                        <ChairIcon /> {property.sittingRooms}
+                      </span>
+                    </p>
+                    <div>
+                      <p>Category: {property.category.name}</p>
+                    </div>
 
-do an 'npm install' in the three main directories(rest-api, homesoft.com, dashboard)
+                    <address className="d-flex align-items-end">
+                      <PlaceIcon />{' '}
+                      {`${String(
+                        property.address.houseNoStreet
+                      ).toLocaleUpperCase()}, ${property.address.area.name}, ${
+                        property.address.ward.name
+                      }, ${property.address.lga.name}, ${
+                        property.address.state.name
+                      }`}
+                    </address>
+                    <p className="form-text">{property.description}</p>
+                    {property.arModelUrl && (
+                      <button
+                        className="btn btn-secondary"
+                        onClick={handleShowAR}
+                      >
+                        View AR
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className="col-lg-4">
+                  <h5>Neighborhood Information</h5>
+                  {property.neighborhood ? (
+                    <>
+                      <p>Overview: {property.neighborhood.overview}</p>
 
-then 'npm run start' in the \rest-api directory 
+                      <h6>Amenities</h6>
+                      <ul>
+                        <li>Parks: {property.neighborhood.amenities.parks}</li>
+                        <li>
+                          Schools: {property.neighborhood.amenities.schools}
+                        </li>
+                        <li>
+                          Shopping:{property.neighborhood.amenities.shopping}
+                        </li>
+                        <li>
+                          Restaurants:{' '}
+                          {property.neighborhood.amenities.restaurants}
+                        </li>
+                        <li>
+                          Entertainment:{' '}
+                          {property.neighborhood.amenities.entertainment}
+                        </li>
+                      </ul>
 
-then 'npm run dev' in \homesoft and \dashboard in a seperate terminal window 
+                      <h6>Transportation</h6>
+                      <p>
+                        Public Transit:{' '}
+                        {property.neighborhood.transportation.publicTransit}
+                      </p>
+                      <p>
+                        Major Highways:{' '}
+                        {property.neighborhood.transportation.majorHighway}
+                      </p>
 
-then click on the '- Local:  http://localhost:3000' 
+                      <h6>Safety</h6>
+                      <p>
+                        Crime Rate: {property.neighborhood.safety.crimeRate}
+                      </p>
+                      <p>
+                        Police Stations:{' '}
+                        {property.neighborhood.safety.policeStations}
+                      </p>
+                      <p>
+                        Fire Stations:{' '}
+                        {property.neighborhood.safety.fireStations}
+                      </p>
+                    </>
+                  ) : (
+                    <p>No Neighborhood Information found</p>
+                  )}
+
+                  <button
+                    className="btn btn-secondary px-5"
+                    onClick={() => {
+                      if (!auth.isLoggedIn) auth.setShowLogin(true);
+                      else showHandler();
+                    }}
+                  >
+                    Schedule inspection
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p>No record found</p>
+            )}
+          </>
+        ) : (
+          <div className="d-flex justify-content-center align-items-center mt-5">
+            <CircularProgress />
+          </div>
+        )}
+      </div>
+
+      <Modal show={show} onHide={closeHandler} animation={true} centered>
+        <Modal.Header className="border-0" closeButton />
+        <Modal.Body className="pb-5 px-5">
+          <div className="text-center">
+            <h2 className="my-0">Schedule Inspection</h2>
+            <p className="text-dark my-0">Arrange your inspection with Ease</p>
+            <p className="mb-2">{property?.title}</p>
+          </div>
+          <ScheduleInspectionForm property={property} onSuccess={() => {}} />
+          {/* <LoginForm onSuccess={onLoginSuccessHandler} /> */}
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={showAR} onHide={handleCloseAR} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Property AR</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="py-3 px-2 pb-4">
+            <Canvas frameloop="demand" style={{ height: '500px' }}>
+              <ambientLight />
+              <pointLight position={[10, 10, 10]} />
+              <OrbitControls />
+              <Model
+                url={`${process.env.API_BASE_URL}/${prepareImageUrl(
+                  property?.arModelUrl?.path
+                )}`}
+              />
+            </Canvas>
+
+            {/* <Canvas shadows dpr={[1, 2]} camera={{ fov: 50 }}>
+              <Suspense fallback={null}>
+                <Stage preset="rembrandt" intensity={1} environment="city"> 
+          
+            <ARComponent
+              arModelUrl={`${process.env.API_BASE_URL}/${prepareImageUrl(
+                property.arModelUrl.path
+              )}`}
+            />
+            </Stage>
+              </Suspense>
+            Use OrbitControls for camera controls
+            <OrbitControls />
+            </Canvas> */}
+          </div>
+        </Modal.Body>
+      </Modal>
+    </>
