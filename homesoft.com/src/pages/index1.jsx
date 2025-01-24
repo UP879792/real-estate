@@ -1,5 +1,5 @@
-import PropertyCard from '../property/components/property-card';
-import CurrentPage from '../shared/components/layouts/current-page';
+// import PropertyCard from '../property/components/property-card';
+// import CurrentPage from '../shared/components/layouts/current-page';
 
 export default function Home() {
   return (
