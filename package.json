@@ -1,0 +1,13 @@
+{
+  "name": "real-estate",
+  "version": "1.0.0",
+  "description": "to run the app",
+  "main": "index.ts",
+  "scripts": {
+   "dev": "nodemon api/index.ts",
+    "start": "node api/index.ts",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
+  },
+  "author": "",
+  "license": "ISC"
+}
