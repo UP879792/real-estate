@@ -2,3 +2,4 @@
 #include rest-api/.gitignore
 #include homesoft.com/.gitignore
 .vercel
+node_modules/
