@@ -1,0 +1,11 @@
+{
+    "projects": {
+      "homesoft": {
+        "rootDirectory": "homesoft.com"
+      },
+      "dashboard": {
+        "rootDirectory": "dashboard"
+      }
+    }
+  }
+  
