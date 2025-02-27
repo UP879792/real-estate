@@ -1126,3 +1126,4 @@ client/node_modules/real-estate/client/node_modules/real-estate/rest-api/src/rou
 client/node_modules/real-estate/client/node_modules/real-estate/rest-api/src/services/mongoose-utils.ts
 client/node_modules/real-estate/client/node_modules/real-estate/rest-api/src/services/password-manager.ts
 .vercel
+node_modules
