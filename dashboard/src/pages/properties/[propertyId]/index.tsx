@@ -224,7 +224,8 @@ const PropertyDetail = ({ propertyInfo }) => {
 export default PropertyDetail;
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  const cookies = context.req?.cookies;
+  const cookie = require('cookie');
+  const cookies = cookie.parse(context.req?.headers.cookie || '');
 
   const { query } = context;
   const propertyId = query.propertyId;
