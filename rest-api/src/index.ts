@@ -15,40 +15,22 @@ dotenv.config();
 const app = express();
 
 app.set('trust proxy', true);
-
-// CORS configuration to allow requests from your Vercel frontend URL
-app.use(cors({
-  origin: 'https://real-estate-render-deploy-ed3qmbe1s.vercel.app', // Allow your Vercel frontend domain
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-// Security middleware
+app.use(cors());
 app.use(helmet());
-
-// Parse incoming JSON requests
 app.use(json());
-
-// Serve static files from the 'public' directory
 app.use(express.static('public'));
-
-// API routes
 app.use('/api/v1', v1Routes);
 
-// Wildcard route to catch any undefined routes and respond with a message
 app.get('*', (req, res) => {
   res.json({ message: 'API is running!' });
 });
 
-// Route to handle undefined API requests and throw a NotFoundError
 app.all('*', async (req, res) => {
   throw new NotFoundError('Routes not found');
 });
 
-// Error handling middleware
 app.use(errorHandler);
 
-// MongoDB connection and server startup
 const start = async () => {
   try {
     if (!process.env.JWT_KEY) throw new Error('JWT_KEY must be defined');
@@ -76,8 +58,8 @@ const start = async () => {
       });
       await defaultAdmin.save();
     }
-
-    // Start the server
+    
+    
     app.listen(8080, () => {
       console.log('Listening on port 8080');
     });
