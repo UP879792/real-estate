@@ -21,12 +21,12 @@ app.use(json());
 app.use(express.static('public'));
 app.use('/api/v1', v1Routes);
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.json({ message: 'API is running!' });
 });
 
 app.all('*', async (req, res) => {
-  throw new NotFoundError('Route not found');
+  throw new NotFoundError('Routes not found');
 });
 
 app.use(errorHandler);
