@@ -421,6 +421,16 @@ router.get('/public/:category', async (req: Request, res: Response) => {
   res.send(properties);
 });
 
+
+router.get('/to-rent', (req, res) => {
+  res.json({ message: 'Properties to rent' });
+});
+
+router.get('/public/:propertyId/details', (req: Request, res: Response) => {
+  console.log("Request received for public property details");
+  // Rest of the logic...
+});
+
 router.put(
   '/:propertyId/neighborhood',
   [

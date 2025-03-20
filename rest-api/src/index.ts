@@ -21,8 +21,12 @@ app.use(json());
 app.use(express.static('public'));
 app.use('/api/v1', v1Routes);
 
+app.get('*', (req, res) => {
+  res.json({ message: 'API is running!' });
+});
+
 app.all('*', async (req, res) => {
-  throw new NotFoundError('Route not found');
+  throw new NotFoundError('Routes not found');
 });
 
 app.use(errorHandler);
@@ -56,9 +60,8 @@ const start = async () => {
     }
     
     
-    const port = process.env.PORT || 3000;
-    app.listen(port, () => {
-      console.log('Listening on port 3000');
+    app.listen(8080, () => {
+      console.log('Listening on port 8080');
     });
   } catch (err) {
     console.log(err);
