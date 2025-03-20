@@ -7,12 +7,12 @@ import ChairIcon from '@mui/icons-material/Chair';
 import BedIcon from '@mui/icons-material/LocalHotel';
 import PlaceIcon from '@mui/icons-material/Place';
 import CircularProgress from '@mui/material/CircularProgress';
-import { OrbitControls } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
+// import { OrbitControls } from '@react-three/drei';
+// import { Canvas } from '@react-three/fiber';
 import Image from 'next/image';
 import { Carousel } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
-import Model from '../../../components/ar-model/r3f-gltf-loader';
+// import Model from '../../../components/ar-model/r3f-gltf-loader';
 import ScheduleInspectionForm from '../../../components/inspection/schedule-inspection-form';
 import PageHeader from '../../../components/layouts/page-header';
 import { useAuth } from '../../../hooks/useAuth';
@@ -232,7 +232,7 @@ const PropertyDetail = () => {
         </Modal.Body>
       </Modal>
 
-      <Modal show={showAR} onHide={handleCloseAR} size="lg">
+      {/* <Modal show={showAR} onHide={handleCloseAR} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Property AR</Modal.Title>
         </Modal.Header>
@@ -247,7 +247,7 @@ const PropertyDetail = () => {
                   property?.arModelUrl?.path
                 )}`}
               />
-            </Canvas>
+            </Canvas> */}
 
             {/* <Canvas shadows dpr={[1, 2]} camera={{ fov: 50 }}>
               <Suspense fallback={null}>
@@ -263,9 +263,7 @@ const PropertyDetail = () => {
             Use OrbitControls for camera controls
             <OrbitControls />
             </Canvas> */}
-          </div>
-        </Modal.Body>
-      </Modal>
+          {/* </div> */}?
     </>
   );
 };
